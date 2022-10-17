@@ -24,13 +24,13 @@ class Column {
         for (let i = 0; i < _amountOfFloors; i++){
             
             if (buttonFloor < _amountOfFloors) {
-                let callButton = new CallButton(callButtonID, buttonFloor, "up");
+                let callButton = new CallButton(callButtonID, buttonFloor, 1);
                 this.callButtonList.push(callButton);
                 callButtonID++;
             }
 
             if (buttonFloor > 1) {
-                let callButton = new CallButton(callButtonID, buttonFloor, "down");
+                let callButton = new CallButton(callButtonID, buttonFloor, 1);
                 this.callButtonList.push(callButton);
                 callButtonID++;
             }
@@ -49,8 +49,8 @@ class Column {
     requestElevator (requestedFloor, direction) {
         let chosenElevator = this.findElevator(requestedFloor, direction);
         chosenElevator.floorRequestList.push(requestedFloor);
-        // chosenElevator.move();
-        // chosenElevator.operateDoors()
+        chosenElevator.move();
+        chosenElevator.operateDoors()
         return chosenElevator;
     }
 
@@ -85,7 +85,7 @@ class Column {
             bestElevator = bestElevatorInformation.bestElevator;
             bestScore = bestElevatorInformation.bestScore;
             referenceGap = bestElevatorInformation.referenceGap;
-        };
+        }
     
         return bestElevator
     
@@ -121,7 +121,7 @@ class Elevator {
         this.currentFloor = 1;
         this.direction = null;
         this.door = new Door(_id);
-        this.floorRequestButtonsList = [];
+        this.floorRequestButtonList = [];
         this.floorRequestList = [];
 
         this.createFloorRequestButtons(_amountOfFloors);
@@ -131,7 +131,7 @@ class Elevator {
         let buttonFloor = 1;
         for (let i = 0; i < _amountOfFloors; i++) {
             let floorRequestButton = new FloorRequestButton(floorRequestButtonID, "OFF", buttonFloor);
-            this.floorRequestButtonsList.push(floorRequestButton);
+            this.floorRequestButtonList.push(floorRequestButton);
             buttonFloor++;
             floorRequestButtonID++;
         }
@@ -140,8 +140,8 @@ class Elevator {
     requestFloor(floor) {
         this.floorRequestList.push(floor);
         this.sortFloorList;
-        // this.move();
-        // this.operateDoors();
+        this.move();
+        this.operateDoors();
     }
 
     move() {
@@ -151,7 +151,7 @@ class Elevator {
             if (this.currentFloor < destination){
                 this.direction ="up";
                 while (this.currentFloor < destination){
-                    this.curentFloor++;
+                    this.currentFloor++;
                 }
             }else if (this.currentFloor > destination){
                 this.direction = "down";
